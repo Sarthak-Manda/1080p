@@ -34,10 +34,9 @@ function showPanel(type) {
   document.getElementById('create-panel').classList.add('hidden');
   document.getElementById('join-panel').classList.add('hidden');
 
-  // show the right one with smooth transition
   const target = document.getElementById(`${type}-panel`);
   target.classList.remove('hidden');
-  // small delay so browser registers the class change before animating
+  
   requestAnimationFrame(() => {
     target.classList.add('visible');
   });
