@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang = "en">
+    <head>
+        <meta charset = "UTF-8">
+        <meta name = "viewport" content = "width=device-width, initial-scale = 1.0"/>
+        <title>1080p</title>
+        <link rel = "stylesheet" href="styles.css"/>
+    </head>
+    <body>
+
+        <div id = "entry-screen" class = "screen active">
+            <div class = "card">
+                <h1 class="logo">1080p</h1>
+                <div class="logo-divider"></div>
+                <p class="tagline">Watch together. Anywhere.</p>
+                <div class = "btn-row">
+                    <button class = "btn-primary" onClick="showPanel('create')">Create Room</button>
+                    <button class = "btn-secondary" onClick="showPanel('join')">Join Room </button>
+                </div>
+
+                <div id = "create-panel" class="panel hidden">
+                    <input id = "create-room-id" placeholder="room name" />
+                    <input id="create-password" type="password" placeholder="password" />
+                    <button class="btn-primary full" onClick = "createRoom()">Create Room</button>
+                </div>
+
+                
+                <div id = "join-panel" class="panel hidden">
+                    <input id="join-username" placeholder="username" />
+                    <input id = "join-room-id" placeholder="room name" />
+                    <input id = "join-password" type = "password" placeholder="password" />
+                    <button class="btn-primary full" onClick = "joinRoom()">Join Room </button>
+                </div>
+
+                <p id="entry-status" class="status"></p>
+
+            </div>
+        </div>
+
+        <div id="host-screen" class="screen hidden">
+            <div class="room-layout">
+                <div  class="video-section">
+
+                    <div class="video-wrapper" id="videoWrapper">
+                        <video id="localVideo" muted playsinline></video>
+                        <div id="video-placeholder" class="placeholder">
+                            <p>// no file loaded </p>
+                        </div>
+                        <div class="controls-overlay" id="hostControls">
+                            <div class="controls-btn-row">
+                                <button class="ctrl-btn" id="rewindBtn" onClick="hostRewind()" disabled> -30 </button>
+                                <button class="ctrl-btn" id="playPauseBtn" onClick="togglePlayPause()" disabled> ▶ </button>
+                                <button class="ctrl-btn" id="fastForwardBtn" onClick="hostFastForward()" disabled> +30 </button>
+                                <div style="flex:1"></div>
+                                <div class="volume-container">
+                                    <div class="volume-popup">
+                                        <input type="range" id="volumeSlider" min="0" max="100" value="100" onInput="handleVolume()"
+                                            class="volume-slider" />
+                                    </div>
+                                    <button class="ctrl-btn" id="volumeBtn" onclick="toggleMute()">🔊</button>
+                                </div>
+                                <button class="ctrl-btn" id="fullscreenBtn" onclick="toggleFullscreen()">⛶</button>
+                            </div>
+                            <div class="seek-row">
+                                <span id="timeDisplay">0:00 / 0:00</span>
+                                <input type="range" id="seekBar" min="0" max="100" value="0"
+                                     disabled/>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    
+                    <div class="file-section">
+                        <label class="file-label" for="fileInput">Choose video file </label>
+                        <input type="file" id="fileInput" accept="video/*" onChange=
+                                  "handleFileLoad(event)" style="display:none"/>
+                        <p id="file-name" class="file-name">No file Selected</p>          
+                    </div>
+
+                </div>
+
+                <div class="info-section">
+                    <div class="room-info">
+                        <p class="room-label">> room</p>
+                        <p id="host-room-display" class="room-id"></p>
+                    </div>
+
+                    <div class="viewer-list">
+                        <p class="room-label">> viewers</p>
+                        <ul id="viewer-list-ul">
+                            <li class="no-viewers">no viewers yet</li>
+                        </ul>
+                    </div>
+
+                    <p id="host-status" class="status"></p>
+
+                </div>
+            </div>
+        </div>
+        
+        <div id="viewer-screen" class="screen hidden">
+            <div class="viewer-layout">
+        
+                <div class="viewer-video-wrapper">
+                    <video id="remoteVideo" autoplay playsinline></video>
+                    <div id="viewer-placeholder" class="placeholder">
+                        <p>// waiting for host to start stream...</p>
+                    </div>
+                </div>
+        
+                <div class="viewer-info">
+                    <p class="room-label">> room</p>
+                    <p id="viewer-room-display" class="room-id"></p>
+                    <p id="viewer-status" class="status"></p>
+                </div>
+        
+            </div>
+        </div>
+
+
+        <script src="http://localhost:4000/socket.io/socket.io.js"></script>
+        <script src="app.js"></script>
+    </body>
+</html>
